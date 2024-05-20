@@ -26,6 +26,6 @@ wget -o /home/molok/work/log/wgetlog-$date.log https://microsoftedge.github.io/D
 echo "des logs onts ete ajoutée dans le dossier log/";
 
 
-mysql -u julien -ppass -D banta  < "/home/molok/work/script.sql"
+mysql -u julien -ppass < "/home/molok/work/script.sql"
 echo "lancement du script sql"
 

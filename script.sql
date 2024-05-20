@@ -15,3 +15,5 @@ CREATE TABLE IF NOT EXISTS full_object (
     bio VARCHAR(255),
     version DECIMAL(4, 2)
 );
+
+
