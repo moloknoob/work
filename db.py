@@ -2,6 +2,7 @@ from sqlalchemy import *
 import json
 from sqlalchemy.orm import sessionmaker
 from models import Base,Full_objet
+import os
 
 
 
@@ -28,7 +29,9 @@ except Exception as e :
 
 
 #Base.metadata.create_all(bind=connexion) #creation des tables en fonction des models declarer dans models.py
+Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
+
 
 
 
@@ -58,29 +61,31 @@ for i in data_list:
     object = to_jsonify_object(i)
     tab.append(object)
 
-for i in tab:
-     print(i)
+os.makedirs("/home/molok/work/logs", exist_ok=True)
+with open("/home/molok/work/logs/dataInsert.log", 'w') as file:
+    for i in tab:
+            
+            name1 = i.get('name')
+            language1 = i.get('language')
+            external_id1 = i.get('external_id')
+            bio1 = i.get('bio')
+            version1 = i.get('version')
 
-for i in tab:
+            existing_objet = session.query(Full_objet).filter_by(external_id=external_id1).first()
         
-        name1 = i.get('name')
-        language1 = i.get('language')
-        external_id1 = i.get('external_id')
-        bio1 = i.get('bio')
-        version1 = i.get('version')
+            if existing_objet :
+                print("this id is aleady in bdd , update information in bdd")
+                existing_objet.name = name1
+                existing_objet.language = language1
+                existing_objet.bio = bio1
+                existing_objet.version = version1
 
-        existing_objet = session.query(Full_objet).filter_by(external_id=external_id1).first()
-       
-        if existing_objet :
-            print("this id is aleady in bdd , update information in bdd")
-            existing_objet.name = name1
-            existing_objet.language = language1
-            existing_objet.bio = bio1
-            existing_objet.version = version1
+            else :
+                
+                file.write(f"- {name1}\n")    
 
-        else :
-            object = Full_objet(name=name1,language=language1,external_id=external_id1,bio=bio1,version=version1)
-            session.add(object)
+                object = Full_objet(name=name1,language=language1,external_id=external_id1,bio=bio1,version=version1)
+                session.add(object)
 
 session.commit() #ajoute les information a la session mais c local
 session.close()

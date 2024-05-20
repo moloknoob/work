@@ -29,3 +29,5 @@ echo "des logs onts ete ajoutée dans le dossier log/";
 mysql -u julien -ppass < "/home/molok/work/script.sql"
 echo "lancement du script sql"
 
+mysql -u julien -ppass banta -e "select name from full_object;"
+
