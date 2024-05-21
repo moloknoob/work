@@ -145,7 +145,13 @@ elif [ "$reponse" = "2" ]; then
     echo "tapez 1 si vous voulez terminal et 2 pr fichier"
     read reponse3
     if [ "$reponse3" = "1" ]; then
-        mysql -u julien -ppass banta -e "select * from full_object where name='$reponse' OR language='$reponse' OR bio='$reponse' OR version='$reponse' OR id='$reponse' AND (name='$reponse2' OR language='$reponse2' OR bio='$reponse2' OR version='$reponse2' OR id='$reponse2');"
+        resultat=$(mysql -u julien -ppass banta -e "select * from full_object where name='$reponse' OR language='$reponse' OR bio='$reponse' OR version='$reponse' OR id='$reponse' AND (name='$reponse2' OR language='$reponse2' OR bio='$reponse2' OR version='$reponse2' OR id='$reponse2');")
+        if [ -z "$resultat" ]; then # -z verifie si la variable est vide ou non flemme de faire pr chaque recherche
+            echo "Aucun résultat trouvé pour les valeurs $reponse et $reponse2" >&2  #merci chat gpt il est 8h04 jsuis fatiguer
+            exit 1
+        else
+            echo "$resultat"
+        fi
     elif [ "$reponse3" = "2" ]; then
         echo "choissisez donc le nom du fichier"
         read reponse3
