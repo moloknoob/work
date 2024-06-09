@@ -1,0 +1,10 @@
+FROM php:7.4-apache
+
+
+COPY . /var/www/html/
+
+# Active le module mod_rewrite d'Apache
+RUN a2enmod rewrite
+
+
+WORKDIR /var/www/html

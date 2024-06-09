@@ -38,7 +38,7 @@ mysql -u julien -ppass < "/home/molok/work/script.sql"
 echo "lancement du script sql"
 
 echo "remplisage de la bdd via le script python"
-#python3 /home/molok/work/db.py
+python3 /home/molok/work/db.py
 
 echo "souhaitez vous faire une recherche simple ou composer ? tapez 1 pour simple et 2 pour composer"
 read reponse

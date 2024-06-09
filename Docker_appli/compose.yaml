@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  database:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: Bubble
+      MYSQL_USER: julien
+      MYSQL_PASSWORD: pass
+    container_name: db_contenaire #permet de nommer mon contenaire
+    volumes: # utilisaton du volume db-volume
+      - db-volume:/var/lib/mysql
+  app:
+    build: . # le . represente le répertoire courant
+    container_name: app_contenaire
+    restart: always
+    volumes:
+      - ./app/index.php:/var/www/html/index.php #permet de n'ecraser que le fichier index.php, sinon il ecrase tout le dossier html
+    ports:
+      - 8080:80 #on expose le port 80 en le mappant sur le port 8080
+    depends_on:
+      - database
+
+volumes: #creation des volumes
+  db-volume: #declaration d'un volume
+
